@@ -5,10 +5,10 @@ using System.IO;
 public class Program
 {
 
-    private const string TRIM_CHARS = ".,;:!?";
     private const string USAGE = "usage: WordsCount <file-path>";
     private const string EMPTY_FILE = "File {0} is empty!";
     private const string RESULT_LINE = "{0}: {1}";
+    private const string TRIM_CHARS = ".,;:!?";
 
     public static void Main(string[] args)
     {
@@ -32,7 +32,7 @@ public class Program
 
 
         WordCounter wordCounter = new WordCounter();
-        Dictionary<string, int> result = wordCounter.GetWordsCount(
+        Dictionary<string, WordCounter.Pair> result = wordCounter.GetWordsCount(
             lines, TRIM_CHARS.ToCharArray());
 
         if (result.Count == 0)
@@ -44,8 +44,9 @@ public class Program
 
         foreach (string key in result.Keys)
         {
+            var wordCountPair = result[key];
             Console.WriteLine(
-                String.Format(RESULT_LINE, result[key], key));
+                String.Format(RESULT_LINE, wordCountPair.Count, wordCountPair.Word));
         }
     }
 }
