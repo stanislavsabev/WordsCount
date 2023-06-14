@@ -23,12 +23,14 @@ namespace WordsCountTests
             };
             string[] expected = new string[] { "one", "two", "three" };
 
-            Dictionary<string, int> actual = wordCounter.GetWordsCount(lines);
+            Dictionary<string, WordCounter.Pair> actual = wordCounter.GetWordsCount(lines);
 
             Assert.Equal(expected.Length, actual.Count);
             foreach (var word in expected)
             {
-                Assert.Equal(1, actual[word]);
+                string key = word.ToLower();
+                Assert.Equal(word, actual[key].Word);
+                Assert.Equal(1, actual[key].Count);
             }
         }
 
@@ -44,16 +46,16 @@ namespace WordsCountTests
             };
             string[] expected = new string[] { "one", "two", "three", "four" };
 
-            Dictionary<string, int> actual = wordCounter.GetWordsCount(lines);
+            Dictionary<string, WordCounter.Pair> actual = wordCounter.GetWordsCount(lines);
 
             Assert.Equal(expected.Length, actual.Count);
             int i = 1;
             foreach (string word in expected)
             {
-                {
-                    Assert.Equal(i, actual[word]);
-                    i++;
-                }
+                string key = word.ToLower();
+                Assert.Equal(word, actual[key].Word);
+                Assert.Equal(i, actual[key].Count);
+                i++;
             }
         }
 
@@ -64,9 +66,33 @@ namespace WordsCountTests
                 " ", "", "    ",
             };
 
-            Dictionary<string, int> actual = wordCounter.GetWordsCount(lines);
+            Dictionary<string, WordCounter.Pair> actual = wordCounter.GetWordsCount(lines);
             
             Assert.Equal(0, actual.Count);
+        }
+
+
+        [Fact]
+        public void GetWordsCount_PreservesFirstWordCasing_ReturnsCorrectCase()
+        {
+            var lines = new string[]
+            {
+                "One Two TWO THREE three Three",
+                "four Four FOUR four",
+            };
+            string[] expected = new string[] { "One", "Two", "THREE", "four"};
+
+            Dictionary<string, WordCounter.Pair> actual = wordCounter.GetWordsCount(lines);
+
+            Assert.Equal(expected.Length, actual.Count);
+            int i = 1;
+            foreach (string word in expected)
+            {
+                string key = word.ToLower();
+                Assert.Equal(word, actual[key].Word);
+                Assert.Equal(i, actual[key].Count);
+                i++;
+            }
         }
 
         [Fact]
@@ -84,16 +110,16 @@ namespace WordsCountTests
             string[] expected = new string[] { "one", "two", "three", "four"};
             char[] trimChars = ".,;:!?".ToCharArray();
 
-            Dictionary<string, int> actual = wordCounter.GetWordsCount(lines, trimChars);
+            Dictionary<string, WordCounter.Pair> actual = wordCounter.GetWordsCount(lines, trimChars);
 
             Assert.Equal(expected.Length, actual.Count);
             int i = 1;
             foreach (string word in expected)
             {
-                {
-                    Assert.Equal(i, actual[word]);
-                    i++;
-                }
+                string key = word.ToLower();
+                Assert.Equal(word, actual[key].Word);
+                Assert.Equal(i, actual[key].Count);
+                i++;
             }
         }
 

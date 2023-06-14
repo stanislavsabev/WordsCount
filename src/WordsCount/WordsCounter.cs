@@ -2,10 +2,14 @@ using System.Collections.Generic;
 
 public class WordCounter
 {
+    public class Pair{
+        public string Word = "";
+        public int Count = 0;
+    }
 
-    public Dictionary<string, int> GetWordsCount(IEnumerable<string> lines, char[]? trimChars = null)
+    public Dictionary<string, Pair> GetWordsCount(IEnumerable<string> lines, char[]? trimChars = null)
     {
-        var wordCounts = new Dictionary<string, int>();
+        var wordCounts = new Dictionary<string, Pair>();
 
         foreach (string line in lines)
         {
@@ -13,16 +17,17 @@ public class WordCounter
 
             foreach (string word in words)
             {
-                string trimmedWord = word.Trim(trimChars).ToLower();
+                string trimmedWord = word.Trim(trimChars);
+                string key = trimmedWord.ToLower();
                 if (String.IsNullOrEmpty(trimmedWord)) continue;
 
-                if (wordCounts.ContainsKey(trimmedWord))
+                if (wordCounts.ContainsKey(key))
                 {
-                    wordCounts[trimmedWord]++;
+                    wordCounts[key].Count++;
                 }
                 else
                 {
-                    wordCounts.Add(trimmedWord, 1);
+                    wordCounts.Add(key , new Pair() {Word = trimmedWord, Count = 1});
                 }
             }
         }
