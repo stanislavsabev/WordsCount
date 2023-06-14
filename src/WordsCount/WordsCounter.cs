@@ -14,6 +14,8 @@ public class WordCounter
             foreach (string word in words)
             {
                 string trimmedWord = word.Trim(trimChars).ToLower();
+                if (String.IsNullOrEmpty(trimmedWord)) continue;
+
                 if (wordCounts.ContainsKey(trimmedWord))
                 {
                     wordCounts[trimmedWord]++;
@@ -23,9 +25,7 @@ public class WordCounter
                     wordCounts.Add(trimmedWord, 1);
                 }
             }
-
         }
         return wordCounts;
     }
 }
-
