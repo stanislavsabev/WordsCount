@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-class WordCounter
+public class WordCounter
 {
 
     public Dictionary<string, int> GetWordsCount(IEnumerable<string> lines, char[]? trimChars = null)

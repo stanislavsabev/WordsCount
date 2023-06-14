@@ -7,7 +7,8 @@ class Program
 
     static void Main(string[] args)
     {
-        if (args.Length != 1){
+        if (args.Length != 1)
+        {
             Console.Write("usage: WordsCount <file-path>");
             return;
         }
@@ -19,6 +20,10 @@ class Program
         Dictionary<string, int> wordCounts = counter.GetWordsCount(
             lines, new char[] { '.', ',', ';', ':', '!', '?' });
 
+        if(wordCounts.Count == 0){
+            Console.WriteLine("File " + filePath + " is empty.");
+            return;
+        }
         foreach (string key in wordCounts.Keys)
         {
             Console.WriteLine(key + ": " + wordCounts[key]);
